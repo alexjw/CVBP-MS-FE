@@ -5,8 +5,8 @@ import HomePage from "./components/homePage";
 import './stylesheets/App.sass'
 import TheNavBar from "./components/theNavBar";
 import TheFooter from "./components/theFooter";
-import VolunteersPage from "./components/volunteersPage";
-
+import VolunteersPage from "./components/Volunteers/VolunteersPage";
+import EditVolunteerPage from "./components/Volunteers/EditVolunteerPage";
 
 const App = () => {
 
@@ -17,6 +17,7 @@ const App = () => {
                 <Switch>
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/volunteers' component={VolunteersPage}/>
+                    <Route exact path='/volunteers/:id/edit' component={EditVolunteerPage}/>
                 </Switch>
             </div>
             <TheFooter/>
