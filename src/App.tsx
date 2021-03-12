@@ -7,6 +7,7 @@ import TheNavBar from "./components/theNavBar";
 import TheFooter from "./components/theFooter";
 import VolunteersPage from "./components/Volunteers/VolunteersPage";
 import EditVolunteerPage from "./components/Volunteers/EditVolunteerPage";
+import ShowVolunteerPage from "./components/Volunteers/ShowVolunteerPage";
 
 const App = () => {
 
@@ -15,9 +16,12 @@ const App = () => {
             <TheNavBar/>
             <div className='app-container'>
                 <Switch>
+                    {/* All Routing here */}
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/volunteers' component={VolunteersPage}/>
                     <Route exact path='/volunteers/:id/edit' component={EditVolunteerPage}/>
+                    <Route exact path='/volunteers/create' component={EditVolunteerPage}/>
+                    <Route exact path='/volunteers/:id' component={ShowVolunteerPage}/>
                 </Switch>
             </div>
             <TheFooter/>

@@ -1,23 +1,37 @@
 import React from "react"
 import {Link, RouteComponentProps} from "react-router-dom"
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import {GetVolunteersQuery} from "../../types";
-import {GET_VOLUNTEERS} from "../../queries/volunteers";
+import {DeleteVolunteerMutation, DeleteVolunteerMutationVariables, GetVolunteersQuery} from "../../types";
+import {DELETE_VOLUNTEER, GET_VOLUNTEERS} from "../../queries/volunteers";
 import Spinner from "../spinner";
 
 const VolunteersPage = (props: RouteComponentProps) => {
 
     const { loading, data } = useQuery<GetVolunteersQuery>( GET_VOLUNTEERS );
 
-    const onEdit = (id:String) => {
-        props.history.push('/volunteers/' + id + '/edit')
-    }
+    const [deleteClient, deletedClient] = useMutation<
+        DeleteVolunteerMutation,
+        DeleteVolunteerMutationVariables
+        >(DELETE_VOLUNTEER, {
+        refetchQueries: [{query: GET_VOLUNTEERS}]
+    });
+
+    const handleCreate = () => props.history.push('/volunteers/create')
+    const handleEdit = (id:string) => props.history.push('/volunteers/' + id + '/edit')
+    const handleShow = (id:string) => props.history.push('/volunteers/' + id)
+    const handleDelete = (id:string) => deleteClient({variables: {_id: id}});
 
     return loading ? <Spinner/> : (
         <div>
             <h1>The Volunteers Page</h1>
-            <h2>List</h2>
-            { data.volunteers.map(volunteer => <li>{volunteer._id + ' ' + volunteer.name}<button onClick={() => onEdit(volunteer._id)}>Edit</button></li>) }
+            <h2>List</h2><button onClick={handleCreate}>Create</button>
+            { data.volunteers.map(volunteer =>
+                <li>{volunteer._id + ' ' + volunteer.name}
+                    <button onClick={() => handleShow(volunteer._id)}>Show</button>
+                    <button onClick={() => handleEdit(volunteer._id)}>Edit</button>
+                    <button onClick={() => handleDelete(volunteer._id)}>Delete</button>
+                </li>)
+            }
         </div>
     )
 
